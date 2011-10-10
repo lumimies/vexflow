@@ -1093,11 +1093,15 @@ Vex.Flow.VexTab.prototype.genTabStave = function(params) {
     if (time_signature != "") notestave.addTimeSignature(time_signature);
     tabstave_start_x = notestave.getNoteStartX();
   }
-
+  
+  var nStrings = this.tuning.numStrings;
   var tabstave = tablature ?
     new Vex.Flow.TabStave(20,
-      notation ? notestave.getHeight() + this.height : this.height, 380).
-    addTabGlyph().setNoteStartX(tabstave_start_x) : null;
+      notation ? notestave.getHeight() + this.height : this.height, 380
+      , { num_lines: nStrings
+        , spacing_between_lines_px: 13 * 6 / nStrings + 1.8*(6 - nStrings)
+        , space_above_staff_ls: 4 * 6 / nStrings
+      }).addTabGlyph().setNoteStartX(tabstave_start_x) : null;
 
   this.elements.staves.push({tab: tabstave, note: notestave});
   this.height += (tablature ? tabstave.getHeight() : null) +
